@@ -1,0 +1,10 @@
+# Raw ESS microdata - not redistributed, see README for download instructions
+01_Data/ESS/
+
+# R session files
+.Rhistory
+.Rproj.user/
+.Rdata
+
+# Claude Code local settings
+.claude/

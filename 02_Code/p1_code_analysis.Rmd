@@ -1,0 +1,937 @@
+---
+title: "Paper 1 - The Green Gender Gap: Environmental Ideology and Political Behaviour Across Europe"
+output: 
+  pdf_document:
+    extra_dependencies: ["pdflscape"]
+    latex_engine: xelatex
+    fig_caption: true
+fontsize: 11pt
+params:
+  continue_knitting: true
+header-includes:
+  - \usepackage{pdflscape}
+---
+
+<!---SET UP CODE CHUNK--->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE)
+
+library(haven)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(lmtest)
+library(margins)
+library(DescTools)
+library(mediation)
+library(knitr)
+library(kableExtra)
+library(modelsummary)
+library(parameters)
+library(purrr)
+
+```
+
+# Analysis
+
+<!-- This file loads the combined, recoded ESS dataset (df) produced by
+p1_code_data.R. Key variables: greenvote (voted for a green party),
+class8/class16 (Oesch occupational class), eisced2 (harmonized education),
+polindex (climate policy support index), and region (country grouping). -->
+
+## Section 1: Regional Estimates
+\newpage
+\begin{landscape}
+
+```{r results='asis'}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+# West
+df <- df %>%
+  filter(cntry == "AT" | cntry == "BE" | cntry == "DE" | cntry == "CH" | cntry == "LU" | cntry == "FR" | cntry == "GB" | cntry == "NL" | cntry == "IE") 
+
+m1 <- lm(impenv ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(wrclmch ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m3 <- lm(ccrdprs ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m4 <- lm(polindex ~ gndr + factor(cntry), weights = anweight, data = df)
+m5 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), 
+          weights = anweight, family = binomial, data = df)
+m6 <- lm(per501 ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1 <- model_parameters(m1, standardize = "refit", vcov = vcovCL(m1, cluster = ~ cntry))
+m2 <- model_parameters(m2, standardize = "refit", vcov = vcovCL(m2, cluster = ~ cntry))
+m3 <- model_parameters(m3, standardize = "refit", vcov = vcovCL(m3, cluster = ~ cntry))
+m4 <- model_parameters(m4, standardize = "refit", vcov = vcovCL(m4, cluster = ~ cntry))
+m5 <- model_parameters(m5, standardize = "refit", vcov = vcovCL(m5, cluster = ~ cntry))
+m6 <- model_parameters(m6, standardize = "refit", vcov = vcovCL(m6, cluster = ~ cntry))
+
+coefs <- bind_rows(
+  m1 %>% filter(Parameter == "gndr") %>% mutate(Model = "m1 (impenv)"),
+  m2 %>% filter(Parameter == "gndr") %>% mutate(Model = "m2 (wrclmch)"),
+  m3 %>% filter(Parameter == "gndr") %>% mutate(Model = "m3 (ccrdprs)"),
+  m4 %>% filter(Parameter == "gndr") %>% mutate(Model = "m4 (polindex)"),
+  m5 %>% filter(Parameter == "gndr") %>% mutate(Model = "m5 (greenvote)"),
+  m6 %>% filter(Parameter == "gndr") %>% mutate(Model = "m6 (per501)")
+) %>%
+  dplyr::select(Model, Coefficient, SE, p)
+
+kable(coefs, digits = 2, caption = "Coefficient of gender (gndr) across models in Western Europe") %>%
+  kable_styling(full_width = F)
+
+## Eastern 
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+df <- df %>%
+  filter(cntry == "CZ" | cntry == "EE" | cntry == "HU" | cntry == "AL" | cntry == "BG" | cntry == "HR" | cntry == "XK" | cntry == "LV" | cntry == "LT" | cntry == "PL" | cntry == "SI" | cntry == "ME" | cntry == "MK" | cntry == "RO" | cntry == "RS" | cntry == "SK" | cntry == "UA")
+
+m1 <- lm(impenv ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(wrclmch ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m3 <- lm(ccrdprs ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m4 <- lm(polindex ~ gndr + factor(cntry), weights = anweight, data = df)
+m5 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), 
+          weights = anweight, family = binomial, data = df)
+m6 <- lm(per501 ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1 <- model_parameters(m1, standardize = "refit", vcov = vcovCL(m1, cluster = ~ cntry))
+m2 <- model_parameters(m2, standardize = "refit", vcov = vcovCL(m2, cluster = ~ cntry))
+m3 <- model_parameters(m3, standardize = "refit", vcov = vcovCL(m3, cluster = ~ cntry))
+m4 <- model_parameters(m4, standardize = "refit", vcov = vcovCL(m4, cluster = ~ cntry))
+m5 <- model_parameters(m5, standardize = "refit", vcov = vcovCL(m5, cluster = ~ cntry))
+m6 <- model_parameters(m6, standardize = "refit", vcov = vcovCL(m6, cluster = ~ cntry))
+
+coefs <- bind_rows(
+  m1 %>% filter(Parameter == "gndr") %>% mutate(Model = "m1 (impenv)"),
+  m2 %>% filter(Parameter == "gndr") %>% mutate(Model = "m2 (wrclmch)"),
+  m3 %>% filter(Parameter == "gndr") %>% mutate(Model = "m3 (ccrdprs)"),
+  m4 %>% filter(Parameter == "gndr") %>% mutate(Model = "m4 (polindex)"),
+  m5 %>% filter(Parameter == "gndr") %>% mutate(Model = "m5 (greenvote)"),
+  m6 %>% filter(Parameter == "gndr") %>% mutate(Model = "m6 (per501)")
+) %>%
+  dplyr::select(Model, Coefficient, SE, p)
+
+kable(coefs, digits = 2, caption = "Coefficient of gender (gndr) across models in Eastern/Central Europe") %>%
+  kable_styling(full_width = F)
+```
+
+\newpage
+
+```{r results='asis'}
+## Southern 
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+df_s <- df %>%
+  filter(cntry == "ES" | cntry == "IT" | cntry == "PT" | cntry == "CY" | cntry == "GR")
+
+m1 <- lm(impenv ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(wrclmch ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m3 <- lm(ccrdprs ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m4 <- lm(polindex ~ gndr + factor(cntry), weights = anweight, data = df)
+m5 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), 
+          weights = anweight, family = binomial, data = df)
+m6 <- lm(per501 ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1 <- model_parameters(m1, standardize = "refit", vcov = vcovCL(m1, cluster = ~ cntry))
+m2 <- model_parameters(m2, standardize = "refit", vcov = vcovCL(m2, cluster = ~ cntry))
+m3 <- model_parameters(m3, standardize = "refit", vcov = vcovCL(m3, cluster = ~ cntry))
+m4 <- model_parameters(m4, standardize = "refit", vcov = vcovCL(m4, cluster = ~ cntry))
+m5 <- model_parameters(m5, standardize = "refit", vcov = vcovCL(m5, cluster = ~ cntry))
+m6 <- model_parameters(m6, standardize = "refit", vcov = vcovCL(m6, cluster = ~ cntry))
+
+coefs <- bind_rows(
+  m1 %>% filter(Parameter == "gndr") %>% mutate(Model = "m1 (impenv)"),
+  m2 %>% filter(Parameter == "gndr") %>% mutate(Model = "m2 (wrclmch)"),
+  m3 %>% filter(Parameter == "gndr") %>% mutate(Model = "m3 (ccrdprs)"),
+  m4 %>% filter(Parameter == "gndr") %>% mutate(Model = "m4 (polindex)"),
+  m5 %>% filter(Parameter == "gndr") %>% mutate(Model = "m5 (greenvote)"),
+  m6 %>% filter(Parameter == "gndr") %>% mutate(Model = "m6 (per501)")
+) %>%
+  dplyr::select(Model, Coefficient, SE, p)
+
+kable(coefs, digits = 2, caption = "Coefficient of gender (gndr) across models in Southern Europe") %>%
+  kable_styling(full_width = F)
+
+## Northern
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+df_n <- df %>%
+  filter(cntry == "FI" | cntry == "IS" | cntry == "DK" | cntry == "NO" | cntry == "SE")
+
+m1 <- lm(impenv ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(wrclmch ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m3 <- lm(ccrdprs ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m4 <- lm(polindex ~ gndr + factor(cntry), weights = anweight, data = df)
+m5 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), 
+          weights = anweight, family = binomial, data = df)
+m6 <- lm(per501 ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1 <- model_parameters(m1, standardize = "refit", vcov = vcovCL(m1, cluster = ~ cntry))
+m2 <- model_parameters(m2, standardize = "refit", vcov = vcovCL(m2, cluster = ~ cntry))
+m3 <- model_parameters(m3, standardize = "refit", vcov = vcovCL(m3, cluster = ~ cntry))
+m4 <- model_parameters(m4, standardize = "refit", vcov = vcovCL(m4, cluster = ~ cntry))
+m5 <- model_parameters(m5, standardize = "refit", vcov = vcovCL(m5, cluster = ~ cntry))
+m6 <- model_parameters(m6, standardize = "refit", vcov = vcovCL(m6, cluster = ~ cntry))
+
+coefs <- bind_rows(
+  m1 %>% filter(Parameter == "gndr") %>% mutate(Model = "m1 (impenv)"),
+  m2 %>% filter(Parameter == "gndr") %>% mutate(Model = "m2 (wrclmch)"),
+  m3 %>% filter(Parameter == "gndr") %>% mutate(Model = "m3 (ccrdprs)"),
+  m4 %>% filter(Parameter == "gndr") %>% mutate(Model = "m4 (polindex)"),
+  m5 %>% filter(Parameter == "gndr") %>% mutate(Model = "m5 (greenvote)"),
+  m6 %>% filter(Parameter == "gndr") %>% mutate(Model = "m6 (per501)")
+) %>%
+  dplyr::select(Model, Coefficient, SE, p)
+
+kable(coefs, digits = 2, caption = "Coefficient of gender (gndr) across models in Northern Europe") %>%
+  kable_styling(full_width = F)
+
+
+```
+
+\newpage
+
+```{r results='asis'}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+fun_m <- function(x) {
+  
+  m1 <- lm(impenv ~ gndr  + factor(cntry) + factor(essround), weights = anweight, data = x)
+  m2 <- lm(wrclmch ~ gndr  + factor(cntry) + factor(essround), weights = anweight, data = x)
+  m3 <- lm(ccrdprs ~ gndr  + factor(cntry) + factor(essround), weights = anweight, data = x)
+  m4 <- lm(polindex ~ gndr  + factor(cntry), weights = anweight, data = x)
+  m5 <- glm(greenvote ~ gndr  + factor(cntry) + factor(essround), weights = anweight, family = binomial, data = x)
+  m6 <- lm(per501 ~ gndr  + factor(cntry) + factor(essround), weights = anweight, data = x)
+
+  return(list(m1, m2, m3, m4, m5, m6))
+}
+
+fun_se <- function(x) {
+
+  m1 <- lm(impenv ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = x)
+  m2 <- lm(wrclmch ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = x)
+  m3 <- lm(ccrdprs ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = x)
+  m4 <- lm(polindex ~ gndr + factor(cntry), weights = anweight, data = x)
+  m5 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), weights = anweight, family = binomial, data = x)
+  m6 <- lm(per501 ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = x)
+
+  m1_se <- coeftest(m1, vcov = vcovCL, cluster = ~cntry)[, 2]
+  m2_se <- coeftest(m2, vcov = vcovCL, cluster = ~cntry)[, 2]
+  m3_se <- coeftest(m3, vcov = vcovCL, cluster = ~cntry)[, 2]
+  m4_se <- coeftest(m4, vcov = vcovCL, cluster = ~cntry)[, 2]
+  m5_se <- coeftest(m5, vcov = vcovCL, cluster = ~cntry)[, 2]
+  m6_se <- coeftest(m6, vcov = vcovCL, cluster = ~cntry)[, 2]
+
+  return(list(m1_se, m2_se, m3_se, m4_se, m5_se, m6_se))
+}
+
+# West 
+df_w <- df %>%
+  filter(cntry == "AT" | cntry == "BE" | cntry == "DE" | cntry == "CH" | cntry == "LU" | cntry == "FR" | cntry == "GB" | cntry == "NL" | cntry == "IE") 
+list_m <- fun_m(df_w)
+list_se <- fun_se(df_w)
+
+stargazer(list_m,
+          se = list_se,
+          coef = list_m$standardized.coefficients,
+          keep = c("gndr"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          title = "Western Europe",
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = c("Environmentalism", "Climate Worry", "Personal Action",
+                  "Climate Policy Support Index", "Green Party Vote", "Green Policy Preferences"),
+          covariate.labels = c("Gender (Women)"),
+          header = FALSE,
+          font.size = "tiny",
+          type = "latex",
+          digits = 2)
+```
+
+```{r results='asis'}
+## Eastern 
+df_e <- df %>%
+  filter(cntry == "CZ" | cntry == "EE" | cntry == "HU" | cntry == "AL" | cntry == "BG" | cntry == "HR" | cntry == "XK" | cntry == "LV" | cntry == "LT" | cntry == "PL" | cntry == "SI" | cntry == "ME" | cntry == "MK" | cntry == "RO" | cntry == "RS" | cntry == "SK" | cntry == "UA")
+list_m <- fun_m(df_e)
+list_se <- fun_se(df_e)
+
+stargazer(list_m,
+          se = list_se,
+          keep = c("gndr"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          title = "Central/Eastern Europe",
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = c("Environmentalism", "Climate Worry", "Personal Action",
+                  "Climate Policy Support Index", "Green Party Vote", "Green Policy Preferences"),
+          covariate.labels = c("Gender (Women)"),
+          header = FALSE,
+          font.size = "tiny",
+          type = "latex",
+          digits = 2)
+```
+
+```{r results='asis'}
+## Southern 
+df_s <- df %>%
+  filter(cntry == "ES" | cntry == "IT" | cntry == "PT" | cntry == "CY" | cntry == "GR")
+list_m <- fun_m(df_s)
+list_se <- fun_se(df_s)
+
+stargazer(list_m,
+          se = list_se,
+          keep = c("gndr"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          title = "Southern Europe",
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = c("Environmentalism", "Climate Worry", "Personal Action",
+                  "Climate Policy Support Index", "Green Party Vote", "Green Policy Preferences"),
+          covariate.labels = c("Gender (Women)"),
+          header = FALSE,
+          font.size = "tiny",
+          type = "latex",
+          digits = 2)
+```
+
+```{r results='asis'}
+## Northern
+df_n <- df %>%
+  filter(cntry == "FI" | cntry == "IS" | cntry == "DK" | cntry == "NO" | cntry == "SE")
+list_m <- fun_m(df_n)
+list_se <- fun_se(df_n)
+
+stargazer(list_m,
+          se = list_se,
+          keep = c("gndr"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          title = "Northern Europe",
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = c("Environmentalism", "Climate Worry", "Personal Action",
+                  "Climate Policy Support Index", "Green Party Vote", "Green Policy Preferences"),
+          covariate.labels = c("Gender (Women)"),
+          header = FALSE,
+          font.size = "tiny",
+          type = "latex",
+          digits = 2)
+```
+
+```{r eval=FALSE, include=FALSE, results='asis'}
+### Average Marginal Effects for Voting
+
+# West 
+df_w <- df %>%
+  filter(cntry == "AT" | cntry == "BE" | cntry == "DE" | cntry == "CH" | cntry == "LU" | cntry == "FR" | cntry == "GB" | cntry == "NL" | cntry == "IE") 
+m1 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), weights = anweight, family = binomial, data = df_w)
+          
+## Eastern 
+df_e <- df %>%
+  filter(cntry == "CZ" | cntry == "EE" | cntry == "HU" | cntry == "AL" | cntry == "BG" | cntry == "HR" | cntry == "XK" | cntry == "LV" | cntry == "LT" | cntry == "PL" | cntry == "SI" | cntry == "ME" | cntry == "MK" | cntry == "RO" | cntry == "RS" | cntry == "SK" | cntry == "UA")
+m2 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), weights = anweight, family = binomial, data = df_e)
+
+## Southern 
+df_s <- df %>%
+  filter(cntry == "ES" | cntry == "IT" | cntry == "PT" | cntry == "CY" | cntry == "GR")
+m3 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), weights = anweight, family = binomial, data = df_s)
+
+## Northern
+df_n <- df %>%
+  filter(cntry == "FI" | cntry == "IS" | cntry == "DK" | cntry == "NO" | cntry == "SE")
+m4 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), weights = anweight, family = binomial, data = df_n)
+
+m1_w <- margins(m1)
+m2_e <- margins(m2)
+m3_s <- margins(m3)
+m4_n <- margins(m4)
+
+models <- list("Western Europe" = m1_w, 
+               "Eastern Europe" = m2_e, 
+               "Southern Europe" = m3_s, 
+               "Northern Europe" = m4_n)
+
+modelsummary(models, output = "markdown", coef_map = c("gndr" = "Gender (Women)"))  
+```
+\newpage
+\end{landscape}
+
+## Section 2: Trends Over Time
+
+See 03_Output/Figures/
+
+```{r fig.cap="Environmentalism", include=FALSE}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+find_mode <- function(x) {
+  u <- unique(x)
+  tab <- tabulate(match(x, u))
+  u[tab == max(tab)]
+}
+
+fun_plot <- function(x, region) {
+  m1 <- lm(impenv ~ gndr*factor(essround) + factor(cntry), weights = anweight, data = x)
+  df_prod <- as.data.frame(expand.grid(essround = 1:11, 
+                                       gndr = 0:1,
+                                       cntry = find_mode(x$cntry)))
+  df_prod2 <- predict(m1, newdata = df_prod, type = 'response', interval = "confidence")
+  df_prod <- cbind(df_prod, df_prod2)
+  df_prod_m <- df_prod %>%
+    filter(gndr == 0)
+  df_prod_w <- df_prod %>%
+    filter(gndr == 1)
+  df_prod$fit <- df_prod_w$fit - df_prod_m$upr
+  df_prod$lwr <- df_prod_w$lwr - df_prod_m$upr
+  df_prod$upr <- df_prod_w$upr - df_prod_m$upr
+  df_prod$region <- region
+  return(df_prod)
+}
+
+regions <- list(
+  "All" = df,
+  "West" = df %>% filter(cntry %in% c("AT", "BE", "DE", "CH", "LU", "FR", "GB", "NL", "IE")),
+  "Central/Eastern" = df %>% filter(cntry %in% c("CZ", "EE", "HU", "AL", "BG", "HR", "XK", "LV", "LT", "PL", "SI", "ME", "MK", "RO", "RS", "SK", "UA")),
+  "South" = df %>% filter(cntry %in% c("ES", "IT", "PT", "CY", "GR")),
+  "North" = df %>% filter(cntry %in% c("FI", "IS", "DK", "NO", "SE")))
+
+df_prod <- bind_rows(lapply(names(regions), function(region) fun_plot(regions[[region]], region)))
+
+df_prod1 <- df_prod %>% filter(region != "All")
+p1 <- ggplot(df_prod1, aes(x = essround, y = fit, color = region)) +
+  geom_pointrange(aes(ymin = lwr, ymax = upr), size = 0.8, linewidth = 1.5, alpha = 0.2, position = position_dodge(width = 0.09)) + 
+  geom_line(aes(group = region), linewidth = 1, alpha = 0.2) + 
+  geom_hline(yintercept = 0, linetype = "longdash", color = "gray", size = 1.5) +
+  scale_x_continuous(limits = c(0.9, 11.1), breaks = c(1:11), labels = c("2002", "2004", "2006", "2008", "2010", "2012", "2014", "2016", "2018", "2020", "2022")) +
+  labs(title = "", x = "", y = "Gender Gap in Environmentalism") +
+  labs(color = "Regions of Europe", fill = NULL) +
+  theme_minimal(base_size = 20) +
+    theme(
+  axis.title.y = element_text(size = 15)) +
+  scale_color_manual(values = c("All" = "#1f77b4", "West" = "#ff7f0e", "Central/Eastern" = "#2ca02c", "South" = "#9467bd", "North" = "#d62728")) 
+
+df_prod2 = df_prod %>% filter(region == "All")
+p1 <- p1 +
+  geom_pointrange(data = df_prod2, aes(x = essround, y = fit, ymin = lwr, ymax = upr, color = region), size = 1, linewidth = 1.5) +
+  geom_line(data = df_prod2, aes(x = essround, y = fit, group = region, color = region), linewidth = 1.5) +
+    guides(color = guide_legend( 
+    override.aes=list(shape = 20)))
+
+p1
+
+ggsave("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/03_Output/Figures/Figure_time1.svg", plot = p1, device = "svg", width = 11, height = 6)
+```
+
+```{r fig.cap="Green policies (per501)", include=FALSE}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+find_mode <- function(x) {
+  u <- unique(x)
+  tab <- tabulate(match(x, u))
+  u[tab == max(tab)]
+}
+
+fun_plot <- function(x, region) {
+  m1 <- lm(per501 ~ gndr*factor(essround) + factor(cntry), weights = anweight, data = x)
+  df_prod <- as.data.frame(expand.grid(essround = 1:11, 
+                                       gndr = 0:1,
+                                       cntry = find_mode(x$cntry)))
+  df_prod2 <- predict(m1, newdata = df_prod, type = 'response', interval = "confidence")
+  df_prod <- cbind(df_prod, df_prod2)
+  df_prod_m <- df_prod %>%
+    filter(gndr == 0)
+  df_prod_w <- df_prod %>%
+    filter(gndr == 1)
+  df_prod$fit <- df_prod_w$fit - df_prod_m$upr
+  df_prod$lwr <- df_prod_w$lwr - df_prod_m$upr
+  df_prod$upr <- df_prod_w$upr - df_prod_m$upr
+  df_prod$region <- region
+  return(df_prod)
+}
+
+regions <- list(
+  "All" = df,
+  "West" = df %>% filter(cntry %in% c("AT", "BE", "DE", "CH", "LU", "FR", "GB", "NL", "IE")),
+  "Central/Eastern" = df %>% filter(cntry %in% c("CZ", "EE", "HU", "AL", "BG", "HR", "XK", "LV", "LT", "PL", "SI", "ME", "MK", "RO", "RS", "SK", "UA")),
+  "South" = df %>% filter(cntry %in% c("ES", "IT", "PT", "CY", "GR")),
+  "North" = df %>% filter(cntry %in% c("FI", "IS", "DK", "NO", "SE")))
+
+df_prod <- bind_rows(lapply(names(regions), function(region) fun_plot(regions[[region]], region)))
+
+df_prod1 <- df_prod %>% filter(region != "All")
+p1 <- ggplot(df_prod1, aes(x = essround, y = fit, color = region)) +
+  geom_pointrange(aes(ymin = lwr, ymax = upr), size = 0.8, linewidth = 1.5, alpha = 0.2, position = position_dodge(width = 0.09)) + 
+  geom_line(aes(group = region), linewidth = 1, alpha = 0.2) + 
+  geom_hline(yintercept = 0, linetype = "longdash", color = "gray", size = 1.5) +
+  scale_x_continuous(limits = c(0.9, 11.1), breaks = c(1:11), labels = c("2002", "2004", "2006", "2008", "2010", "2012", "2014", "2016", "2018", "2020", "2022")) +
+  labs(title = "", x = "", y = "Gender Gap in Pro-Environment Score") +
+  labs(color = "Regions of Europe", fill = NULL) +
+  theme_minimal(base_size = 20) +
+      theme(
+  axis.title.y = element_text(size = 15)) +
+  scale_color_manual(values = c("All" = "#1f77b4", "West" = "#ff7f0e", "Central/Eastern" = "#2ca02c", "South" = "#9467bd", "North" = "#d62728")) 
+
+df_prod2 = df_prod %>% filter(region == "All")
+p1 <- p1 +
+  geom_pointrange(data = df_prod2, aes(x = essround, y = fit, ymin = lwr, ymax = upr, color = region), size = 1, linewidth = 1.5) +
+  geom_line(data = df_prod2, aes(x = essround, y = fit, group = region, color = region), linewidth = 1.5) +
+    guides(color = guide_legend( 
+    override.aes=list(shape = 20)))
+
+p1
+
+ggsave("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/03_Output/Figures/Figure_time2.svg", plot = p1, device = "svg", width = 11, height = 6)
+```
+
+```{r fig.cap="Green Vote", include=FALSE}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+model_summaries <- list()
+for(i in 1:11) {
+  model <- glm(greenvote ~ gndr + factor(cntry), family = binomial, weights = anweight, 
+               data = df, subset = (essround == i))
+  model_margins <- margins(model)
+  model_summary <- summary(model_margins)
+  model_summary_final <- model_summary[nrow(model_summary),]
+  model_summary_final$essround <- i
+  model_summaries[[i]] <- model_summary_final
+}
+df_prod1 <- do.call(rbind, model_summaries)
+df_prod1$region <- "All"
+
+df <- df %>%
+  filter(cntry %in% c("AT", "BE", "DE", "CH", "LU", "FR", "GB", "NL", "IE"))
+model_summaries <- list()
+for(i in 1:11) {
+  model <- glm(greenvote ~ gndr + factor(cntry), family = binomial, weights = anweight, 
+               data = df, subset = (essround == i))
+  model_margins <- margins(model)
+  model_summary <- summary(model_margins)
+  model_summary_final <- model_summary[nrow(model_summary),]
+  model_summary_final$essround <- i
+  model_summaries[[i]] <- model_summary_final
+}
+df_prod2 <- do.call(rbind, model_summaries)
+df_prod2$region <- "West"
+
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+df <- df %>%
+  filter(cntry %in% c("FI", "IS", "DK", "NO", "SE"))
+model_summaries <- list()
+for(i in 1:11) {
+  model <- glm(greenvote ~ gndr + factor(cntry), family = binomial, weights = anweight, 
+               data = df, subset = (essround == i))
+  model_margins <- margins(model)
+  model_summary <- summary(model_margins)
+  model_summary_final <- model_summary[nrow(model_summary),]
+  model_summary_final$essround <- i
+  model_summaries[[i]] <- model_summary_final
+}
+df_prod3 <- do.call(rbind, model_summaries)
+df_prod3$region <- "North"
+
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+df <- df %>%
+  filter(cntry %in% c("ES", "IT", "PT", "CY", "GR")) %>%
+  drop_na(greenvote)
+model_summaries <- list()
+for(i in c(1, 3, 4, 5, 6, 8, 9, 10, 11)) {
+  if (i == 9) {
+     model_formula <- greenvote ~ gndr + factor(cntry)
+  } else {
+     model_formula <- greenvote ~ gndr
+  }
+  model <- glm(greenvote ~ gndr, family = binomial, weights = anweight, 
+               data = df, subset = (essround == i))
+  model_margins <- margins(model)
+  model_summary <- summary(model_margins)
+  model_summary_final <- model_summary[nrow(model_summary),]
+  model_summary_final$essround <- i
+  model_summaries[[i]] <- model_summary_final
+}
+df_prod4 <- do.call(rbind, model_summaries)
+df_prod4$region <- "South"
+
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+df <- df %>%
+  filter(cntry %in% c("CZ", "EE", "HU", "AL", "BG", "HR", "XK", "LV", "LT", "PL", "SI", "ME", "MK", "RO", "RS", "SK", "UA")) %>%
+  drop_na(greenvote)
+model_summaries <- list()
+for(i in c(1, 2, 4, 5, 6, 7, 8, 9, 10, 11)) {
+    if (i == 2) {
+     model_formula <- greenvote ~ gndr
+  } else {
+     model_formula <- greenvote ~ gndr + factor(cntry)
+  }
+  model <- glm(greenvote ~ gndr, family = binomial, weights = anweight, 
+               data = df, subset = (essround == i))
+  model_margins <- margins(model)
+  model_summary <- summary(model_margins)
+  model_summary_final <- model_summary[nrow(model_summary),]
+  model_summary_final$essround <- i
+  model_summaries[[i]] <- model_summary_final
+}
+df_prod5 <- do.call(rbind, model_summaries)
+df_prod5$region <- "Central/Eastern"
+
+df_prod <- rbind(df_prod2, df_prod3, df_prod4, df_prod5)
+
+p1 <- ggplot(df_prod, aes(x = essround, y = AME, color = region)) +
+  geom_pointrange(aes(ymin = lower, ymax = upper), size = 0.8, linewidth = 1.5, alpha = 0.2, position = position_dodge(width = 0.09)) + 
+  geom_line(aes(group = region), linewidth = 1, alpha = 0.2) + 
+  geom_hline(yintercept = 0, linetype = "longdash", color = "gray", size = 1.5) +
+  scale_x_continuous(limits = c(0.9, 11.1), breaks = c(1:11), labels = c("2002", "2004", "2006", "2008", "2010", "2012", "2014", "2016", "2018", "2020", "2022")) +
+  labs(title = "", x = "", y = "Gender Gap in Vote for Green Party (AME)") +
+  labs(color = "Regions of Europe", fill = NULL) +
+  theme_minimal(base_size = 20) +
+      theme(
+  axis.title.y = element_text(size = 15)) +
+  scale_color_manual(values = c("All" = "#1f77b4", "West" = "#ff7f0e", "Central/Eastern" = "#2ca02c", "South" = "#9467bd", "North" = "#d62728")) 
+
+p1 <- p1 +
+  geom_pointrange(data = df_prod1, aes(x = essround, y = AME, ymin = lower, ymax = upper, color = region), size = 1, linewidth = 1.5) +
+  geom_line(data = df_prod1, aes(x = essround, y = AME, group = region, color = region), linewidth = 1.5)  +
+    guides(color = guide_legend( 
+    override.aes=list(shape = 20)))
+
+p1
+
+ggsave("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/03_Output/Figures/Figure_time3.svg", plot = p1, device = "svg", width = 11, height = 6)
+
+```
+
+```{r fig.cap="Climate Worry", include=FALSE}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+find_mode <- function(x) {
+  u <- unique(x)
+  tab <- tabulate(match(x, u))
+  u[tab == max(tab)]
+}
+fun_plot <- function(x, region) {
+  m1 <- lm(wrclmch ~ gndr*factor(essround) +  factor(cntry), weights = anweight, data = x)
+  df_prod <- as.data.frame(expand.grid(essround = c(8,10,11), 
+                                       gndr = 0:1,
+                                       cntry = find_mode(x$cntry)))
+  df_prod2 <- predict(m1, newdata = df_prod, type = 'response', interval = "confidence")
+  df_prod <- cbind(df_prod, df_prod2)
+  df_prod_m <- df_prod %>%
+    filter(gndr == 0)
+  df_prod_w <- df_prod %>%
+    filter(gndr == 1)
+  df_prod$fit <- df_prod_w$fit - df_prod_m$upr
+  df_prod$lwr <- df_prod_w$lwr - df_prod_m$upr
+  df_prod$upr <- df_prod_w$upr - df_prod_m$upr
+  df_prod$region <- region
+  return(df_prod)
+}
+
+regions <- list(
+  "All" = df,
+  "West" = df %>% filter(cntry %in% c("AT", "BE", "DE", "CH", "LU", "FR", "GB", "NL", "IE")),
+  "Central/Eastern" = df %>% filter(cntry %in% c("CZ", "EE", "HU", "AL", "BG", "HR", "XK", "LV", "LT", "PL", "SI", "ME", "MK", "RO", "RS", "SK", "UA")),
+  "South" = df %>% filter(cntry %in% c("ES", "IT", "PT", "CY", "GR")),
+  "North" = df %>% filter(cntry %in% c("FI", "IS", "DK", "NO", "SE")))
+
+df_prod <- bind_rows(lapply(names(regions), function(region) fun_plot(regions[[region]], region)))
+
+df_prod1 <- df_prod %>% filter(region != "All")
+p1 <- ggplot(df_prod1, aes(x = essround, y = fit, color = region)) +
+  geom_pointrange(aes(ymin = lwr, ymax = upr), size = 0.8, linewidth = 1.5, alpha = 0.2, position = position_dodge(width = 0.09)) + 
+  geom_line(aes(group = region), linewidth = 1, alpha = 0.2) + 
+  geom_hline(yintercept = 0, linetype = "longdash", color = "gray", size = 1.5) +
+  scale_x_continuous(limits = c(7.9, 11.1), breaks = c(8, 10, 11), labels = c("2016", "2020", "2022")) +
+  labs(title = "", x = "", y = "Gender Gap in Climate Change Concern") +
+  labs(color = "Regions of Europe", fill = NULL) +
+  theme_minimal(base_size = 20) +
+        theme(
+  axis.title.y = element_text(size = 15)) +
+  scale_color_manual(values = c("All" = "#1f77b4", "West" = "#ff7f0e", "Central/Eastern" = "#2ca02c", "South" = "#9467bd", "North" = "#d62728")) 
+
+
+df_prod2 = df_prod %>% filter(region == "All")
+p1 <- p1 +
+  geom_pointrange(data = df_prod2, aes(x = essround, y = fit, ymin = lwr, ymax = upr, color = region), size = 1, linewidth = 1.5) +
+  geom_line(data = df_prod2, aes(x = essround, y = fit, group = region, color = region), linewidth = 1.5) +
+  guides(color = guide_legend(override.aes=list(shape = 20)))
+
+
+ggsave("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/03_Output/Figures/Figure_time4.svg", plot = p1, device = "svg", width = 11, height = 6)
+```
+
+```{r fig.cap="Personal Responsibility", include=FALSE}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+find_mode <- function(x) {
+  u <- unique(x)
+  tab <- tabulate(match(x, u))
+  u[tab == max(tab)]
+}
+fun_plot <- function(x, region) {
+  m1 <- lm(ccrdprs ~ gndr*factor(essround) +  factor(cntry), weights = anweight, data = x)
+  df_prod <- as.data.frame(expand.grid(essround = c(8,10, 11), 
+                                       gndr = 0:1,
+                                       cntry = find_mode(x$cntry)))
+  df_prod2 <- predict(m1, newdata = df_prod, type = 'response', interval = "confidence")
+  df_prod <- cbind(df_prod, df_prod2)
+  df_prod_m <- df_prod %>%
+    filter(gndr == 0)
+  df_prod_w <- df_prod %>%
+    filter(gndr == 1)
+  df_prod$fit <- df_prod_w$fit - df_prod_m$upr
+  df_prod$lwr <- df_prod_w$lwr - df_prod_m$upr
+  df_prod$upr <- df_prod_w$upr - df_prod_m$upr
+  df_prod$region <- region
+  return(df_prod)
+}
+
+regions <- list(
+  "All" = df,
+  "West" = df %>% filter(cntry %in% c("AT", "BE", "DE", "CH", "LU", "FR", "GB", "NL", "IE")),
+  "Central/Eastern" = df %>% filter(cntry %in% c("CZ", "EE", "HU", "AL", "BG", "HR", "XK", "LV", "LT", "PL", "SI", "ME", "MK", "RO", "RS", "SK", "UA")),
+  "South" = df %>% filter(cntry %in% c("ES", "IT", "PT", "CY", "GR")),
+  "North" = df %>% filter(cntry %in% c("FI", "IS", "DK", "NO", "SE")))
+
+df_prod <- bind_rows(lapply(names(regions), function(region) fun_plot(regions[[region]], region)))
+
+df_prod1 <- df_prod %>% filter(region != "All")
+p1 <- ggplot(df_prod1, aes(x = essround, y = fit, color = region)) +
+  geom_pointrange(aes(ymin = lwr, ymax = upr), size = 0.8, linewidth = 1.5, alpha = 0.2, position = position_dodge(width = 0.09)) + 
+  geom_line(aes(group = region), linewidth = 1, alpha = 0.2) + 
+  geom_hline(yintercept = 0, linetype = "longdash", color = "gray", size = 1.5) +
+  scale_x_continuous(limits = c(7.9, 11.1), breaks = c(8, 10, 11), labels = c("2016", "2020", "2022")) +
+  labs(title = "", x = "", y = "Gender Gap in Personal Responsibility") +
+  labs(color = "Regions of Europe", fill = NULL) +
+  theme_minimal(base_size = 20) +
+        theme(
+  axis.title.y = element_text(size = 15)) +
+  scale_color_manual(values = c("All" = "#1f77b4", "West" = "#ff7f0e", "Central/Eastern" = "#2ca02c", "South" = "#9467bd", "North" = "#d62728")) 
+
+
+df_prod2 = df_prod %>% filter(region == "All")
+p1 <- p1 +
+  geom_pointrange(data = df_prod2, aes(x = essround, y = fit, ymin = lwr, ymax = upr, color = region), size = 1, linewidth = 1.5) +
+  geom_line(data = df_prod2, aes(x = essround, y = fit, group = region, color = region), linewidth = 1.5)  +
+    guides(color = guide_legend( 
+    override.aes=list(shape = 20)))
+p1
+
+ggsave("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/03_Output/Figures/Figure_time5.svg", plot = p1, device = "svg", width = 11, height = 6)
+```
+
+# Section 3: Adjusting for Mediators
+```{r results='asis'}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+df <- df %>%
+  drop_na(eisced2, domicil, class16, ipadvnt, lrscale)
+
+## Environment
+m1 <- lm(impenv ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(impenv ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale  + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1_se <- coeftest(m1, vcov = vcovCL, cluster = ~cntry)
+m2_se <- coeftest(m2, vcov = vcovCL, cluster = ~cntry)
+m1_se <- m1_se[,2]
+m2_se <- m2_se[,2]
+
+stargazer(m1, m2, 
+          se = list(m1_se, m2_se),
+          title = "Important to Preserve Nature and the Environment",
+          keep = c("gndr", "agea", "eisced2", "ipadvnt", "lrscale"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = (c("Model 1", "Model 2")),
+          covariate.labels = c("Gender (Women)", "Age", "Higher Education", "Risk Aversion", "Left–Right Position"),
+          header = FALSE,
+          type = "latex",
+          digits = 2)
+```
+
+```{r results='asis'}
+## Climate worry
+m1 <- lm(wrclmch ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(wrclmch ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale  + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1_se <- coeftest(m1, vcov = vcovCL, cluster = ~cntry)
+m2_se <- coeftest(m2, vcov = vcovCL, cluster = ~cntry)
+m1_se <- m1_se[,2]
+m2_se <- m2_se[,2]
+
+stargazer(m1, m2, 
+          se = list(m1_se, m2_se),
+          title = "Climate Worry",
+          keep = c("gndr", "agea", "eisced2", "ipadvnt", "lrscale"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = (c("Model 1", "Model 2")),
+          covariate.labels = c("Gender (Women)", "Age", "Higher Education", "Risk Aversion", "Left–Right Position"),
+          header = FALSE,
+          type = "latex",
+          digits = 2)
+```
+
+```{r results='asis'}
+## Personal Action
+m1 <- lm(ccrdprs ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(ccrdprs ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale  + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1_se <- coeftest(m1, vcov = vcovCL, cluster = ~cntry)
+m2_se <- coeftest(m2, vcov = vcovCL, cluster = ~cntry)
+m1_se <- m1_se[,2]
+m2_se <- m2_se[,2]
+
+stargazer(m1, m2, 
+          se = list(m1_se, m2_se),
+          title = "Personal Action",
+          keep = c("gndr", "agea", "eisced2", "ipadvnt", "lrscale"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = (c("Model 1", "Model 2")),
+          covariate.labels = c("Gender (Women)", "Age", "Higher Education", "Risk Aversion", "Left–Right Position"),
+          header = FALSE,
+          type = "latex",
+          digits = 2)
+```
+
+```{r results='asis'}
+## Green Policy Index
+m1 <- lm(polindex ~ gndr + factor(cntry), weights = anweight, data = df)
+m2 <- lm(polindex ~ gndr + agea +  eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale  + factor(cntry), weights = anweight, data = df)
+
+m1_se <- coeftest(m1, vcov = vcovCL, cluster = ~cntry)
+m2_se <- coeftest(m2, vcov = vcovCL, cluster = ~cntry)
+
+m1_se <- m1_se[,2]
+m2_se <- m2_se[,2]
+
+stargazer(m1, m2,
+          se = list(m1_se, m2_se),
+          title = "Climate Policy Support Index",
+          keep = c("gndr", "agea", "eisced2", "ipadvnt", "lrscale"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = (c("Model 1", "Model 2")),
+          covariate.labels = c("Gender (Women)", "Age", "Higher Education",
+                     "Risk Aversion", "Left–Right Position"),
+          header = FALSE,
+          type = "latex",
+          digits = 2)
+```
+
+```{r results='asis'}
+## Green Vote (GLM)
+m1 <- glm(greenvote ~ gndr + factor(cntry) + factor(essround), binomial(link = "logit"), weights = anweight, data = df)
+m2 <- glm(greenvote ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale  + factor(cntry) + factor(essround), binomial(link = "logit"), weights = anweight, data = df)
+m3 <- glm(greenvote ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale + rile + factor(cntry) + factor(essround), binomial(link = "logit"), weights = anweight, data = df)
+m4 <- glm(greenvote ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale + rile + per501 + per503 + per604 + factor(cntry) + factor(essround), binomial(link = "logit"), weights = anweight, data = df)
+
+m1_se <- coeftest(m1, vcov = vcovCL, cluster = ~cntry)
+m2_se <- coeftest(m2, vcov = vcovCL, cluster = ~cntry)
+m3_se <- coeftest(m3, vcov = vcovCL, cluster = ~cntry)
+m4_se <- coeftest(m4, vcov = vcovCL, cluster = ~cntry)
+m1_se <- m1_se[,2]
+m2_se <- m2_se[,2]
+m3_se <- m3_se[,2]
+m4_se <- m4_se[,2]
+
+stargazer(m1, m2, m3, m4,
+          se = list(m1_se, m2_se, m3_se, m4_se),
+          title = "Green Party Vote (Logit)",
+          keep = c("gndr", "agea", "rile", "eisced2", "ipadvnt", "lrscale", "rile", "per503", "per604"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = (c("Model 1", "Model 2")),
+          covariate.labels = c("Gender (Women)", "Age", "Higher Education", "Risk Aversion", "Left–Right Position", 
+                     "Left-Right Party (rile)", "Equality: Positive (per503)", "Traditional Morality: Negative (per604)"),
+          header = FALSE,
+          type = "latex",
+          digits = 2)
+
+pseudo_r2 <- c(
+  round(PseudoR2(m1, which = "McFadden"), 2),
+  round(PseudoR2(m2, which = "McFadden"), 2))
+
+
+r2_table <- data.frame(
+  Model = paste("Model", 1:2),
+  McFadden_R2 = pseudo_r2
+)
+
+knitr::kable(r2_table, caption = "McFadden's Pseudo R² for Each Model")
+```
+
+\newpage
+\begin{landscape}
+
+```{r eval=FALSE, include=FALSE, results='asis'}
+### Marginal effects
+m1 <- margins(m1)
+m2 <- margins(m2)
+m3 <- margins(m3)
+m4 <- margins(m4)
+
+models <- list("Model 1" = m1, 
+               "Model 2" = m2, 
+               "Model 3" = m3, 
+               "Model 4" = m4)
+
+modelsummary::modelsummary(models, output = "markdown", coef_map = c("gndr" = "Gender (Women)"))  
+```
+
+\newpage
+\end{landscape}
+
+```{r results='asis'}
+rm(list = ls())
+load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+
+df <- df %>%
+  drop_na(eisced2, domicil, class16, ipadvnt, lrscale)
+
+## Green Policies (per501)
+m1 <- lm(per501 ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = df)
+m2 <- lm(per501 ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale  + factor(cntry) + factor(essround), weights = anweight, data = df)
+m3 <- lm(per501 ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale  + rile + factor(cntry) + factor(essround), weights = anweight, data = df)
+m4 <- lm(per501 ~ gndr + agea + eisced2 + factor(class16) + factor(domicil) + ipadvnt + lrscale + rile+ per503 + per604 + factor(cntry) + factor(essround), weights = anweight, data = df)
+
+m1_se <- coeftest(m1, vcov = vcovCL, cluster = ~cntry)
+m2_se <- coeftest(m2, vcov = vcovCL, cluster = ~cntry)
+m3_se <- coeftest(m3, vcov = vcovCL, cluster = ~cntry)
+m4_se <- coeftest(m4, vcov = vcovCL, cluster = ~cntry)
+m1_se <- m1_se[,2]
+m2_se <- m2_se[,2]
+m3_se <- m3_se[,2]
+m4_se <- m4_se[,2]
+
+
+stargazer(m1, m2, m3, m4,
+          se = list(m1_se, m2_se, m3_se, m4_se),
+          title = "Environmental protection (per501)",
+          keep = c("gndr", "agea", "rile", "eisced2", "ipadvnt", "lrscale", "rile", "per503", "per604"),
+          keep.stat = c("n", "rsq", "adj.rsq", "ll"),
+          dep.var.labels.include = F,
+          dep.var.caption = "",
+          column.labels = (c("Model 1", "Model 2", "Model 3", "Model 4")),
+          covariate.labels = c("Gender (Women)", "Age", "Higher Education", "Risk Aversion", "Left–Right Position", 
+                     "Left-Right Party (rile)", "Equality: Positive (per503)", "Traditional Morality: Negative (per604)"),
+          header = FALSE,
+          type = "latex",
+          digits = 2)
+```
+
