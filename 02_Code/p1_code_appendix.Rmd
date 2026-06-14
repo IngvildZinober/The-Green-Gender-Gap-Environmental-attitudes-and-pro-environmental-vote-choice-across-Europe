@@ -55,6 +55,7 @@ library(stringr)
 library(marginaleffects)
 library(ggplot2)
 library(scales)
+library(here)
 
 ``` 
 
@@ -70,7 +71,7 @@ polindex (climate policy support index), and region (country grouping). -->
 
 ```{r}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 all_countries <- unique(df$cntry)  
 
@@ -129,7 +130,7 @@ kable(rounds_summary,
 ```{r results='asis'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 ess_years <- setNames(seq(2002, 2022, by = 2), 1:11)
 df <- df %>%
@@ -246,7 +247,7 @@ kable(results_df[, c("country", "formatted_output", "num_obs", "ess_years")],
 
 ```{r results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 ess_years <- setNames(seq(2002, 2022, by = 2), 1:11)
 df <- df %>% drop_na(greenvote) %>% mutate(cntry = as.character(cntry))
@@ -397,7 +398,7 @@ kable(results_df[, c("country", "formatted_output", "ame", "num_obs", "num_green
 
 ```{r results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 country_mapping <- tibble(
   cntry = c("AL", "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", 
@@ -523,7 +524,7 @@ kable(df_green2, digits = 1,
 
 ```{r results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 ess_years <- setNames(seq(2002, 2022, by = 2), 1:11)
 df <- df %>%
@@ -649,7 +650,7 @@ kable(results_df[, c("country", "formatted_output", "mean_per501_country", "num_
 ```{r results='asis'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 ess_years <- setNames(seq(2002, 2022, by = 2), 1:11)
 
@@ -760,7 +761,7 @@ kable(results_df[, c("country", "formatted_output", "num_obs", "ess_years")],
 ```{r results='asis'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 ess_years <- setNames(seq(2002, 2022, by = 2), 1:11)
 df <- df %>%
@@ -871,7 +872,7 @@ kable(results_df[, c("country", "formatted_output", "num_obs", "ess_years")],
 ```{r results='asis'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 ess_years <- setNames(seq(2002, 2022, by = 2), 1:11)
 df <- df %>%
@@ -979,7 +980,7 @@ kable(results_df[, c("country", "formatted_output", "num_obs")],
 ```{r results='asis'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 fun_m <- function(x) {
   
@@ -1125,7 +1126,7 @@ stargazer(list_m,
 
 ```{r results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 model_gender <- function(data) {
   lm(per501 ~ gndr + factor(cntry) + factor(essround), weights = anweight, data = data)
@@ -1178,7 +1179,7 @@ for (region_name in names(regions)) {
 
 ```{r}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(eisced2, domicil, class16, ipadvnt, lrscale)
 
@@ -1282,7 +1283,7 @@ kable(final_table,
 # Full Models 
 
 ```{r results='asis'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(eisced2, domicil, class16, ipadvnt, lrscale)
@@ -1519,7 +1520,7 @@ covariate.labels = c("Women", "Age", "Higher Education", "Large Employers", "Low
 ```
 
 ```{r results='asis'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(eisced2, domicil, class16, ipadvnt, lrscale) %>%
@@ -1575,7 +1576,7 @@ covariate.labels = c("Women", "Age", "Higher Education", "Large Employers", "Low
 
 % Western Europe
 ```{r}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   dplyr::filter(region == "West")
@@ -1767,7 +1768,7 @@ kableExtra::kable(
 
 % Central/Eastern Europe
 ```{r}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   dplyr::filter(region == "Central/Eastern")
@@ -1959,7 +1960,7 @@ kableExtra::kable(
 
 % Sothern Europe
 ```{r}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   dplyr::filter(region == "South")
@@ -2151,7 +2152,7 @@ kableExtra::kable(
 
 % Northern Europe
 ```{r}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   dplyr::filter(region == "North")
@@ -2345,7 +2346,7 @@ kableExtra::kable(
 \end{landscape}
 
 ```{r results='asis'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   dplyr::filter(region == "West")
 
@@ -2379,7 +2380,7 @@ covariate.labels = c("Women", "Age", "Higher Education", "Large Employers", "Low
           notes.append = TRUE)
 
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   dplyr::filter(region == "Central/Eastern")
 
@@ -2412,7 +2413,7 @@ covariate.labels = c("Women", "Age", "Higher Education", "Large Employers", "Low
           notes = c("Occupation reference category low-skilled manual.", "Locality reference category a big city.", "Fixed effects on country and ESS round.", "Robust standard errors clustered by country in parentheses."),
           notes.append = TRUE)
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   dplyr::filter(region == "South")
 
@@ -2446,7 +2447,7 @@ covariate.labels = c("Women", "Age", "Higher Education", "Large Employers", "Low
           notes.append = TRUE)
 
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   dplyr::filter(region == "North")
 
@@ -2489,7 +2490,7 @@ covariate.labels = c("Women", "Age", "Higher Education", "Large Employers", "Low
 ```{r echo=FALSE, fig.cap="Environmentalism over time.", fig.height=3, fig.width=7, out.width='\\textwidth'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 find_mode <- function(x) {
   u <- unique(x)
@@ -2545,7 +2546,7 @@ ggplot(df_pred, aes(x = essround, y = fit, color = factor(gndr))) +
 ## Green Party Voting
 ```{r fig.cap="Voting for a green party over time", fig.height=3, fig.width=7, out.width='\\textwidth'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 find_mode <- function(x) {
   u <- unique(x)
@@ -2630,7 +2631,7 @@ ggplot(df_pred, aes(x = essround, y = fit, color = factor(gndr))) +
 ```{r echo=FALSE, fig.cap="Climate change concern over time", fig.height=3, fig.width=7, out.width='\\textwidth'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 find_mode <- function(x) {
   u <- unique(x)
@@ -2689,7 +2690,7 @@ ggplot(df_pred, aes(x = essround, y = fit, color = factor(gndr))) +
 ```{r echo=FALSE, fig.cap="Personal responsibility over time", fig.height=3, fig.width=7, out.width='\\textwidth'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 find_mode <- function(x) {
   u <- unique(x)
@@ -2748,7 +2749,7 @@ ggplot(df_pred, aes(x = essround, y = fit, color = factor(gndr))) +
 ```{r echo=FALSE, fig.cap="Environmental protection (per501) over time.", fig.height=3, fig.width=7, out.width='\\textwidth'}
 rm(list = ls())
 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 find_mode <- function(x) {
   u <- unique(x)
@@ -2807,7 +2808,7 @@ ggplot(df_pred, aes(x = essround, y = fit, color = factor(gndr))) +
 ## Environmentalism
 ```{r fig.cap="Generational cohorts",  fig.width=8, fig.height=3, out.width='\\textwidth'}
 # Generational cohorts
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(yrbrn_cohort, impenv, cntry, essround, anweight) 
@@ -2834,7 +2835,7 @@ ggplot(df_pred, aes(x = yrbrn_cohort, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Education", fig.width=6, fig.height=4, out.width='\\textwidth'}
 # Education 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(eisced2, impenv, cntry, essround, anweight) 
@@ -2862,7 +2863,7 @@ ggplot(df_pred, aes(x = eisced2, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Occupation", fig.width=8, fig.height=4, out.width='\\textwidth'}
 # Occupation 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(class8, impenv, cntry, essround, anweight) 
@@ -2890,7 +2891,7 @@ ggplot(df_pred, aes(x = class8, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Locality", fig.width=7, fig.height=4, out.width='\\textwidth'}
 # Locality 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(domicil, impenv, cntry, essround, anweight) 
@@ -2918,7 +2919,7 @@ ggplot(df_pred, aes(x = domicil, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Risk aversion", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # Risk taker
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(ipadvnt, impenv, cntry, essround, anweight) 
@@ -2945,7 +2946,7 @@ ggplot(df_pred, aes(x = ipadvnt, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Left-right position", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # left - right
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(lrscale, impenv, cntry, essround, anweight) 
@@ -2975,7 +2976,7 @@ ggplot(df_pred, aes(x = lrscale, y = fit, color = factor(gndr))) +
 ## Climate Change Concern
 ```{r fig.cap="Generational cohorts",  fig.width=8, fig.height=3, out.width='\\textwidth'}
 # Generational cohorts
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(yrbrn_cohort, wrclmch, cntry, essround, anweight) 
@@ -3002,7 +3003,7 @@ ggplot(df_pred, aes(x = yrbrn_cohort, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Education", fig.width=6, fig.height=4, out.width='\\textwidth'}
 # Education 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(eisced2, wrclmch, cntry, essround, anweight) 
@@ -3030,7 +3031,7 @@ ggplot(df_pred, aes(x = eisced2, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Occupation", fig.width=8, fig.height=4, out.width='\\textwidth'}
 # Occupation 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(class8, wrclmch, cntry, essround, anweight) 
@@ -3058,7 +3059,7 @@ ggplot(df_pred, aes(x = class8, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Locality", fig.width=7, fig.height=4, out.width='\\textwidth'}
 # Locality 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(domicil, wrclmch, cntry, essround, anweight) 
@@ -3086,7 +3087,7 @@ ggplot(df_pred, aes(x = domicil, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Risk aversion", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # Risk taker
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(ipadvnt, wrclmch, cntry, essround, anweight) 
@@ -3113,7 +3114,7 @@ ggplot(df_pred, aes(x = ipadvnt, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Left-right position", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # left - right
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(lrscale, wrclmch, cntry, essround, anweight) 
@@ -3143,7 +3144,7 @@ ggplot(df_pred, aes(x = lrscale, y = fit, color = factor(gndr))) +
 ## Personal Responsibility
 ```{r fig.cap="Generational cohorts",  fig.width=8, fig.height=3, out.width='\\textwidth'}
 # Generational cohorts
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(yrbrn_cohort, ccrdprs, cntry, essround, anweight) 
@@ -3170,7 +3171,7 @@ ggplot(df_pred, aes(x = yrbrn_cohort, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Education", fig.width=6, fig.height=4, out.width='\\textwidth'}
 # Education 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(eisced2, ccrdprs, cntry, essround, anweight) 
@@ -3198,7 +3199,7 @@ ggplot(df_pred, aes(x = eisced2, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Occupation", fig.width=8, fig.height=4, out.width='\\textwidth'}
 # Occupation 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(class8, ccrdprs, cntry, essround, anweight) 
@@ -3226,7 +3227,7 @@ ggplot(df_pred, aes(x = class8, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Locality", fig.width=7, fig.height=4, out.width='\\textwidth'}
 # Locality 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(domicil, ccrdprs, cntry, essround, anweight) 
@@ -3254,7 +3255,7 @@ ggplot(df_pred, aes(x = domicil, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Risk aversion", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # Risk taker
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(ipadvnt, ccrdprs, cntry, essround, anweight) 
@@ -3281,7 +3282,7 @@ ggplot(df_pred, aes(x = ipadvnt, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Left-right position", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # left - right
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(lrscale, ccrdprs, cntry, essround, anweight) 
@@ -3311,7 +3312,7 @@ ggplot(df_pred, aes(x = lrscale, y = fit, color = factor(gndr))) +
 ## Climate Index
 ```{r fig.cap="Generational cohorts",  fig.width=8, fig.height=3, out.width='\\textwidth'}
 # Generational cohorts
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(yrbrn_cohort, polindex, cntry, essround, anweight) 
@@ -3338,7 +3339,7 @@ ggplot(df_pred, aes(x = yrbrn_cohort, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Education", fig.width=6, fig.height=4, out.width='\\textwidth'}
 # Education 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(eisced2, polindex, cntry, essround, anweight) 
@@ -3366,7 +3367,7 @@ ggplot(df_pred, aes(x = eisced2, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Occupation", fig.width=8, fig.height=4, out.width='\\textwidth'}
 # Occupation 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(class8, polindex, cntry, essround, anweight) 
@@ -3394,7 +3395,7 @@ ggplot(df_pred, aes(x = class8, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Locality", fig.width=7, fig.height=4, out.width='\\textwidth'}
 # Locality 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(domicil, polindex, cntry, essround, anweight) 
@@ -3422,7 +3423,7 @@ ggplot(df_pred, aes(x = domicil, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Risk aversion", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # Risk taker
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 
 df <- df %>%
@@ -3478,7 +3479,7 @@ ggplot(df_pred, aes(x = lrscale, y = fit, color = factor(gndr))) +
 ## Voting for a Green Party
 ```{r fig.cap="Generational cohorts",  fig.width=8, fig.height=3, out.width='\\textwidth'}
 # Generational cohorts
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(yrbrn_cohort, greenvote, cntry, essround, anweight) 
 m1 <- glm(greenvote ~ gndr*factor(yrbrn_cohort) + factor(essround) + factor(cntry), family = binomial, weights = anweight, data = df)
@@ -3511,7 +3512,7 @@ ggplot(df_pred, aes(x = yrbrn_cohort, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Education", fig.width=6, fig.height=4, out.width='\\textwidth'}
 # Education 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(eisced2, greenvote, cntry, essround, anweight) 
 m1 <- glm(greenvote ~ gndr*factor(eisced2) + factor(essround) + factor(cntry), family = binomial, weights = anweight, data = df)
@@ -3545,7 +3546,7 @@ ggplot(df_pred, aes(x = eisced2, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Occupation", fig.width=8, fig.height=4, out.width='\\textwidth'}
 # Occupation 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(class8, greenvote, cntry, essround, anweight) 
 m1 <- glm(greenvote ~ factor(class8)*factor(gndr) + factor(cntry) + factor(essround), family = binomial, weights = anweight, data = df)
@@ -3580,7 +3581,7 @@ ggplot(df_pred, aes(x = class8, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Locality", fig.width=7, fig.height=4, out.width='\\textwidth'}
 # Locality 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(domicil, greenvote, cntry, essround, anweight) 
 m1 <- glm(greenvote ~ factor(domicil)*factor(gndr) + factor(cntry) + factor(essround), family = binomial, weights = anweight, data = df)
@@ -3615,7 +3616,7 @@ ggplot(df_pred, aes(x = domicil, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Risk aversion", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # Risk taker
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(ipadvnt, greenvote, cntry, essround, anweight) 
 m1 <- glm(greenvote ~ gndr*factor(ipadvnt) + factor(essround) + factor(cntry), family = binomial, weights = anweight, data = df)
@@ -3648,7 +3649,7 @@ ggplot(df_pred, aes(x = ipadvnt, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Left-right position", fig.width=6, fig.height=3, out.width='\\textwidth'}
 # left - right
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(lrscale, greenvote, cntry, essround, anweight) 
 m1 <- glm(greenvote ~ gndr*factor(lrscale) + factor(essround) + factor(cntry), family = binomial, weights = anweight, data = df)
@@ -3688,7 +3689,7 @@ ggplot(df_pred, aes(x = lrscale, y = fit, color = factor(gndr))) +
 All results are based on predicted probabilities from weighted logistic regression models with country and ESS-round fixed effects. Shaded areas indicate 95% confidence intervals based on standard errors clustered by country.
 
 ```{r fig.cap="Macro level: Vote share of green party (ESS)", fig.width=6, fig.height=3, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(greenvote, cntry, essround, anweight, gndr) %>%
   group_by(cntry, essround) %>%
@@ -3745,7 +3746,7 @@ ggplot(pred_gender, aes(x = green_share, y = estimate, color = factor(gndr), fil
 ```
 
 ```{r fig.cap="Macro level Vote share of green party (Manifesto)", fig.width=6, fig.height=3, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(greenvote, cntry, essround, anweight, gndr, pervote) %>%
   group_by(cntry, essround) %>%
@@ -3799,7 +3800,7 @@ ggplot(pred_gender, aes(x = green_party_size, y = estimate, color = factor(gndr)
 ```
 
 ```{r fig.cap="Macro level: Environmental protection manifesto score (per501)", fig.width=6, fig.height=3, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
   
 df <- df %>%
   drop_na(greenvote, cntry, essround, anweight, per501) %>%
@@ -3853,7 +3854,7 @@ ggplot(pred_gender, aes(x = green_per501, y = estimate, color = factor(gndr), fi
 ```
 
 ```{r fig.cap="Macro level: Right-left position of party", fig.width=6, fig.height=3, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(greenvote, cntry, essround, anweight, gndr, rile) %>%
@@ -3903,7 +3904,7 @@ ggplot(pred_gender, aes(x = green_rile, y = estimate, color = factor(gndr), fill
 ```
 
 ```{r fig.cap="Macro level: Traditional Morality: Negative", fig.width=6, fig.height=3, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(greenvote, cntry, essround, anweight, gndr, per604) %>%
@@ -3954,7 +3955,7 @@ ggplot(pred_gender, aes(x = green_per604, y = estimate, color = factor(gndr), fi
 ```
 
 ```{r fig.cap="Macro level: Equality: Positive", fig.height=3, fig.width=6, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   drop_na(greenvote, cntry, essround, anweight, gndr, per503) %>%
@@ -4009,7 +4010,7 @@ ggplot(pred_gender, aes(x = green_per503, y = estimate, color = factor(gndr), fi
 ## Environmental Protection (per501)
 ```{r fig.cap="Generational cohorts",  fig.width=8, fig.height=3, out.width='\\textwidth'}
 # Generational cohorts
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(yrbrn_cohort, per501, cntry, essround, anweight) 
 m1 <- lm(per501 ~ gndr*factor(yrbrn_cohort) + factor(essround) + factor(cntry), weights = anweight, data = df)
@@ -4035,7 +4036,7 @@ ggplot(df_pred, aes(x = yrbrn_cohort, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Education", fig.width=6, fig.height=4, out.width='\\textwidth'}
 # Education 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(eisced2, per501, cntry, essround, anweight) 
 m1 <- lm(per501 ~ gndr*factor(eisced2) + factor(essround) + factor(cntry), weights = anweight, data = df)
@@ -4062,7 +4063,7 @@ ggplot(df_pred, aes(x = eisced2, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Occupation", fig.width=8, fig.height=4, out.width='\\textwidth'}
 # Occupation 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(class8, per501, cntry, essround, anweight) 
 m2 <- lm(per501 ~ factor(class8)*factor(gndr) + factor(cntry) + factor(essround), weights = anweight, data = df)
@@ -4089,7 +4090,7 @@ ggplot(df_pred, aes(x = class8, y = fit, color = factor(gndr))) +
 
 ```{r fig.cap="Locality", fig.width=7, fig.height=4, out.width='\\textwidth'}
 # Locality 
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>%
   drop_na(domicil, per501, cntry, essround, anweight) 
 m2 <- lm(per501 ~ factor(domicil)*factor(gndr) + factor(cntry) + factor(essround), weights = anweight, data = df)
@@ -4172,7 +4173,7 @@ ggplot(df_pred, aes(x = lrscale, y = fit, color = factor(gndr))) +
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 mean <- df %>%
   group_by(gndr) %>%
@@ -4238,7 +4239,7 @@ kable(tab_desc,
 
 ```{r}
 rm(list = ls())
-df <- read_sav("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/ESS/ESS round 8/ESS8e02_3.sav")
+df <- read_sav(here::here("01_Data", "ESS", "ESS round 8", "ESS8e02_3.sav"))
 
 politems <- df[, c("inctxff", "sbsrnen", "banhhap")]
 
@@ -4260,7 +4261,7 @@ kable(
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "Distribution of continuous variables by gender", out.width='\\textwidth'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 variable_labels <- c(
   impenv = "Environmentalism",
@@ -4459,7 +4460,7 @@ kable(per501_values,
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 mean <- df %>%
   group_by(gndr) %>%
@@ -4527,7 +4528,7 @@ kable(tab_desc, caption = "Description statistics of the mediators", col.names =
 
 ```{r results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 variables <- c("impenv", "wrclmch", "ccrdprs", "polindex", "greenvote", "per501")
 
@@ -4592,7 +4593,7 @@ kable(
 \newpage
 
 ```{r results='asis'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   filter(region == "West")
@@ -4646,7 +4647,7 @@ kable(
 \newpage
 
 ```{r results='asis'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   filter(region == "Central/Eastern")
@@ -4700,7 +4701,7 @@ kable(
 \newpage
 
 ```{r results='asis'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   filter(region == "South")
@@ -4754,7 +4755,7 @@ kable(
 \newpage
 
 ```{r results='asis'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   filter(region == "North")
@@ -4811,7 +4812,7 @@ kable(
 
 ```{r include=FALSE, results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>% 
   group_by(cntry, essround) %>%
   filter(!all(is.na(impenv))) %>%  
@@ -4909,7 +4910,7 @@ stargazer(m1, m2,
 
 ```{r include=FALSE, results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>% 
   group_by(cntry, essround) %>%
   filter(!all(is.na(wrclmch))) %>%  
@@ -5007,7 +5008,7 @@ stargazer(m1, m2,
 
 ```{r include=FALSE, results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>% 
   group_by(cntry, essround) %>%
   filter(!all(is.na(ccrdprs))) %>%  
@@ -5104,7 +5105,7 @@ stargazer(m1, m2,
 
 ```{r include=FALSE, results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 df <- df %>% 
   group_by(cntry, essround) %>%
   filter(!all(is.na(polindex))) %>%  
@@ -5207,7 +5208,7 @@ stargazer(m1, m2,
 
 ```{r results='asis'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   mutate(eisced = na_if(eisced, 0)) %>%
@@ -5248,7 +5249,7 @@ stargazer(m1, m2, m3, m4,m5, m6,
 
 ```{r fig.cap="Education levels environmentalism", fig.width=12, fig.height=5, out.width='\\textwidth'}
 rm(list = ls())
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 
 find_mode <- function(x) {
@@ -5293,7 +5294,7 @@ guides(fill = "none")
 ```
 
 ```{r fig.cap="Education levels climate worry", fig.width=12, fig.height=5, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   mutate(eisced = na_if(eisced, 0)) %>%
@@ -5321,7 +5322,7 @@ guides(fill = "none")
 ```
 
 ```{r fig.cap="Education levels personal responsibility", fig.width=12, fig.height=5, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   mutate(eisced = na_if(eisced, 0)) %>%
@@ -5349,7 +5350,7 @@ guides(fill = "none")
 ```
 
 ```{r fig.cap="Education levels green policy index", fig.width=12, fig.height=5, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   mutate(eisced = na_if(eisced, 0)) %>%
@@ -5376,7 +5377,7 @@ guides(fill = "none")
 ```
 
 ```{r fig.cap="Education levels green party vote", fig.width=12, fig.height=5, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   mutate(eisced = na_if(eisced, 0)) %>%
@@ -5411,7 +5412,7 @@ guides(fill = "none")
 ```
 
 ```{r fig.cap="Education levels pro-environmental manifesto", fig.width=12, fig.height=5, out.width='\\textwidth'}
-load("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1/01_Data/Ess1-11.R")
+load(here::here("01_Data", "Ess1-11.R"))
 
 df <- df %>%
   mutate(eisced = na_if(eisced, 0)) %>%

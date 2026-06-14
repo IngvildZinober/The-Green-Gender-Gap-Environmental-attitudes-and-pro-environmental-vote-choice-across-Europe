@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the article below."
+type: software
+title: "Replication code and data for: The Green Gender Gap - Environmental Attitudes and Pro-Environmental Vote Choice Across Europe"
+authors:
+  - family-names: Zinober
+    given-names: Ingvild
+repository-code: "https://github.com/IngvildZinober/The-Green-Gender-Gap-Environmental-attitudes-and-pro-environmental-vote-choice-across-Europe"
+preferred-citation:
+  type: article
+  title: "The Green Gender Gap: Environmental Ideology and Political Behaviour Across Europe"
+  authors:
+    - family-names: Zinober
+      given-names: Ingvild
+  journal: "Electoral Studies"
+  year: 2026
+  url: "https://www.sciencedirect.com/science/article/pii/S026137942600020X"

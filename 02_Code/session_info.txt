@@ -1,0 +1,43 @@
+R version and package versions used to run the scripts in this repository
+(captured via sessionInfo()-style output). Install matching versions with,
+e.g., remotes::install_version("<package>", version = "<version>") if you
+encounter reproducibility issues with newer package releases.
+
+R version: R version 4.4.3 (2025-02-28 ucrt)
+Platform:  x86_64-w64-mingw32
+
+Package             Version
+------------------- -------
+tidyverse           2.0.0
+haven               2.5.5
+labelled            2.14.0
+dplyr               1.1.4
+readxl              1.4.5
+stargazer           5.2.3
+sandwich            3.1-1
+lmtest              0.9-40
+margins             0.3.28
+DescTools           0.99.59
+mediation           4.5.0
+knitr               1.49
+kableExtra          1.4.0
+modelsummary        2.6.0
+parameters          0.28.2
+purrr               1.0.4
+tidyr               1.3.1
+lavaan              0.6-19
+interactions        1.2.0
+car                 3.1-3
+tseries             0.10-58
+forecast            8.23.0
+ResourceSelection   0.3-6
+caret               7.0-1
+multiwayvcov        1.2.3
+fastDummies         1.7.5
+psych               2.6.3
+mice                3.18.0
+stringr             1.5.1
+marginaleffects     0.32.0
+ggplot2             4.0.2
+scales              1.4.0
+here                (required for relative file paths; install with install.packages("here"))
