@@ -68,10 +68,15 @@ To reproduce `01_Data/Ess1-11.R` from scratch:
 `01_Data/Ess1-11.R` and reproduce the tables and figures reported in the
 article and its appendix.
 
-**Note:** the scripts currently use absolute file paths
-(e.g. `setwd("C:/Users/.../Paper 1")` and
-`load("C:/Users/.../Paper 1/01_Data/Ess1-11.R")`). Update these paths to
-match your local copy of this repository before running.
+All scripts use the [`here`](https://here.r-lib.org/) package to locate files
+relative to the repository root, so they should run as-is after cloning -
+just open the project from anywhere inside this repository
+(`install.packages("here")` if not already installed).
+
+## Reproducibility
+
+`02_Code/session_info.txt` lists the R version and package versions used to
+run these scripts, in case results differ with newer package releases.
 
 ## Key variables in `Ess1-11.R`
 

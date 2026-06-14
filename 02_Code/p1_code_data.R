@@ -18,9 +18,12 @@ library(haven)
 library(labelled)
 library(dplyr)
 library(readxl)
+library(here)
 
-# WD
-setwd("C:/Users/Ingvild/OneDrive/EUI/Dissertation/Supplementary Material/Paper 1")
+# WD - here::here() resolves to the repository root regardless of where
+# this script is run from, so the relative paths below (e.g. "01_Data/...")
+# work for any user who clones the repository.
+setwd(here::here())
 
 #### Load data + Education ####
 #### Round 1 ####
