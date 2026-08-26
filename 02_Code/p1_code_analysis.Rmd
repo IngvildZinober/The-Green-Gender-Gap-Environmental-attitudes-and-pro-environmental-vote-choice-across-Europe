@@ -1,5 +1,5 @@
 ---
-title: "Paper 1 - The Green Gender Gap: Environmental Ideology and Political Behaviour Across Europe"
+title: "Paper 1 - The Green Gender Gap: Environmental Attitudes and Pro-environmental Vote Choice across Europe"
 output: 
   pdf_document:
     extra_dependencies: ["pdflscape"]

@@ -2,8 +2,8 @@
 
 Replication code and (derived) data for the article:
 
-> *The Green Gender Gap: Environmental Ideology and Political Behaviour Across Europe*
-> https://www.sciencedirect.com/science/article/pii/S026137942600020X
+> Zinober, Ingvild (2026). *The Green Gender Gap: Environmental Attitudes and Pro-environmental Vote Choice across Europe*. Electoral Studies, 103062.
+> https://doi.org/10.1016/j.electstud.2026.103062
 
 ## Repository structure
 
