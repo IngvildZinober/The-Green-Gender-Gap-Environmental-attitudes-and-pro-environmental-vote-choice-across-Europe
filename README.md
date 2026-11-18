@@ -85,3 +85,7 @@ run these scripts, in case results differ with newer package releases.
 - `eisced2` - harmonized education level across countries
 - `polindex` - climate policy support index (ESS round 8 only)
 - `region` - country grouping (West / Central-Eastern / South / North)
+
+## Author
+
+Ingvild Zinober, Sciences Po. Website: [ingvildzinober.github.io](https://ingvildzinober.github.io/)
